@@ -5,17 +5,39 @@ var INCOMMING_POT_EVENT = "incommingPot";
 var POT_READY_EVENT = "potReady";
 var WS_URL = "ws://127.0.0.1:9000"
 
-var connection = new WebSocket(WS_URL);
+// Initial connect
+tryConnect();
 
-connection.onopen = function () {
-    console.log("connection oppened");
+/**
+ * Try to connect to websocket
+ */
+function tryConnect() {
+    var connection = new WebSocket(WS_URL);
+
+    connection.onopen = function(evt) { onOpen(evt) };
+    connection.onmessage = function(evt) { onMessage(evt) };
+    connection.onerror = function(evt) { onError(evt) };
+    connection.onclose = function(evt) { onClose(evt) };
+}
+
+/**
+ * On open 
+ */
+function onOpen() {
+    console.log("CONNECTED");
 };
 
-connection.onerror = function (error) {
+/**
+ * On Error 
+ */
+function onError(error) {
     console.log("Server not available");
 };
 
-connection.onmessage = function (message) {
+/**
+ * On Message 
+ */
+function onMessage(message) {
     // try to decode json (I assume that each message from server is json)
     try {
         var json = JSON.parse(message.data);
@@ -43,3 +65,16 @@ connection.onmessage = function (message) {
         }});
     }
 };
+
+/**
+ * On Close try to reconnect again 
+ */
+function onClose(evt)
+{
+    console.log("DISCONNECTED");
+    // Wait 10 seconds before try to reconnect 
+    setTimeout(function() {
+        tryConnect();
+    }, 10000);
+}
+
