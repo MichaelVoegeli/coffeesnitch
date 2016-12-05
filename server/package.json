@@ -12,6 +12,8 @@
   "author": "FNT Lab 2 Group",
   "license": "ISC",
   "dependencies": {
-    "request-json": "^0.5.5"
+    "request-json": "^0.5.5",
+    "simplebus": "0.0.4",
+    "websocketserver": "^1.0.0"
   }
 }
