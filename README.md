@@ -35,7 +35,7 @@ node index.js
 Try connection: 
 * Open Postman
 * Select POST
-* URL:0000028C028C http://localhost:8083
+* URL: http://localhost:8083
 * Add Header: `Content-Type`: `application/json`
 * Add Body: ```{
   "type": "incommingPot",
