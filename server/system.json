@@ -1,0 +1,9 @@
+{
+  "apps" : [{
+    // bus
+    "name"        : "server",
+    "script"      : "index.js",
+    "watch"       : false
+  }]
+}
+
