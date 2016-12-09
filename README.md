@@ -43,6 +43,20 @@ Try connection:
 }```
 * Click Send
 
+Install PM2 process manager:
+```
+npm install pm2 -g
+```
+
+To start/stop the complete server via Pm2 (and list running processes):
+
+```
+pm2 start system.json
+pm2 list
+pm2 stop system.json
+```
+
+
 ## Tests
 
 **TBD**
