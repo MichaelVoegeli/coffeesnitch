@@ -2,8 +2,12 @@
 * Module which start a countdown 
 *
 **************************************/
-module.exports = function (bus) {
+module.exports = function () {
     console.log("Countdown Module loaded");
+    
+    var simplebus = require('simplebus');
+    var client = simplebus.createClient(8181);
+
     
     const POT_READY_NOTIFICATION_EVENT = 'potReadyNotification';
     const START_COUNTDOWN_EVENT = 'startCountdown';
@@ -23,15 +27,19 @@ module.exports = function (bus) {
 
             if (--timer < 0) {
                 console.log("Kaffee fertig!");
-                bus.post({ type: POT_READY_NOTIFICATION_EVENT, potId: potId });
+                client.post({ type: POT_READY_NOTIFICATION_EVENT, potId: potId });
                 clearInterval(intervalId);
             }
         }, 1000);
     }
   
     /* Events */
-    bus.subscribe({ type: START_COUNTDOWN_EVENT }, function(msg) { 
-        console.log("starte Countdown...");
-        startTimer(msg.time, msg.potId);
+    client.start(function(){
+    	console.log("Client started");
+    	client.subscribe({ type: START_COUNTDOWN_EVENT }, function(msg) { 
+		console.log(msg);
+        	console.log("starte Countdown...");
+        	startTimer(msg.time, msg.potId);
+    	});
     });
 };

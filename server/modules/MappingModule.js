@@ -3,25 +3,28 @@
 * pot 
 *
 **************************************/
-module.exports = function (bus) {
+module.exports = function () {
     console.log("Mapping Module loaded"); 
     
     const INCOMMING_POT_NOTIFICATION_EVENT = 'incommingPotNotification';
     const START_COUNTDOWN_EVENT = 'startCountdown';
     const MAP_EVENT = 'map';
+
+    var simplebus = require('simplebus');
+    var client = simplebus.createClient(8181);
   
     /* Map function */
     function mapper(tagId) {
         switch (tagId) {
             case '0000028C028C':
                 console.log("Kanne 1 da");
-                bus.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 1 });
-                bus.post({ type: START_COUNTDOWN_EVENT, time: 10, potId: 1 });
+                client.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 1 });
+                client.post({ type: START_COUNTDOWN_EVENT, time: 10, potId: 1 });
                 break;
             case '000002E6A743':
                 console.log("Kanne 2 da");
-                bus.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 2 });
-                bus.post({ type: START_COUNTDOWN_EVENT, time: 15, potId: 2 });
+                client.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 2 });
+                client.post({ type: START_COUNTDOWN_EVENT, time: 15, potId: 2 });
                 break;
             default:
                 console.log("Kanne nicht bekannt");
@@ -30,7 +33,10 @@ module.exports = function (bus) {
     }
     
     /* Events */
-    bus.subscribe({ type: MAP_EVENT }, function(msg) { 
-        mapper(msg.tagId);
+    client.start(function(){
+    	console.log("Client started");
+    	client.subscribe({ type: MAP_EVENT }, function(msg) { 
+        	mapper(msg.tagId);
+    	});
     });
 };

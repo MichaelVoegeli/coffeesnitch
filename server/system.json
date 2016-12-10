@@ -1,9 +1,35 @@
 {
-  "apps" : [{
+  "apps" : [
+  {
     // bus
-    "name"        : "server",
-    "script"      : "index.js",
+    "name"        : "bus",
+    "script"      : "bus/Bus.js",
     "watch"       : false
-  }]
+  },
+  {
+    // JsonAdapter
+    "name"        : "jsonAdapter",
+    "script"      : "JsonAdapter.js",
+    "watch"       : false
+  },
+  {
+    // CountdownModule
+    "name"        : "countdownModule",
+    "script"      : "CountdownModule.js",
+    "watch"       : false
+  },
+  {
+    // MappingModule
+    "name"        : "mappingModule",
+    "script"      : "MappingModule.js",
+    "watch"       : false
+  },
+  {
+    // BrowserExtensionNotificationModule
+    "name"        : "browserExtensionNotificationModule",
+    "script"      : "BrowserExtensionNotificationModule.js",
+    "watch"       : false
+  }
+]
 }
 

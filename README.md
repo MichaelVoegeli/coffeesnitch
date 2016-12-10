@@ -28,21 +28,6 @@ Install node dependencies:
 npm install
 ```
 
-To start the server type: 
-```
-node index.js
-```
-Try connection: 
-* Open Postman
-* Select POST
-* URL: http://localhost:8083
-* Add Header: `Content-Type`: `application/json`
-* Add Body: ```{
-  "type": "incommingPot",
-  "tagId": "0000028C028C"
-}```
-* Click Send
-
 Install PM2 process manager:
 ```
 npm install pm2 -g
@@ -55,6 +40,23 @@ pm2 start system.json
 pm2 list
 pm2 stop system.json
 ```
+
+If you want to see the output of the processes then type:
+```
+pm2 logs 
+```
+
+Try connection: 
+* Open Postman
+* Select POST
+* URL: http://localhost:8083
+* Add Header: `Content-Type`: `application/json`
+* Add Body: ```{
+  "type": "incommingPot",
+  "tagId": "0000028C028C"
+}```
+* Click Send
+
 
 
 ## Tests
