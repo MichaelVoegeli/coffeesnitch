@@ -3,7 +3,7 @@
 
   "name": "FNT Coffee pot tracking plugin",
   "description": "This extension will track the brewing progress of your coffee pot",
-  "version": "0.0.1.2",
+  "version": "0.0.2.0",
     
   "background": {
     "scripts": ["background.js"]
@@ -12,7 +12,7 @@
   "browser_action": {
    "default_icon": { 
        "19":"icons/ready/ready19b.png",
-       "38":"icons/ready/ready38.png"
+       "38":"icons/ready/ready38b.png"
    },
    "default_popup": "popup.html"
   },
