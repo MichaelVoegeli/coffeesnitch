@@ -5,15 +5,27 @@
     <script src="popup.js"></script>
   </head>
   <body>
-    <h3>Kaffeekanne</h3>
-    
-    <label for="selectedPot">Kanne ausw&auml;hlen</label>
-    <select name="selectedPot" id="selectedPot">
-      <optgroup label="Geb&auml;ude 3">
-        <option value="1">Stockwerk 1</option>
-        <option value="2">Stockwerk 2</option>
-        <option value="3">Stockwerk 3</option>
-      </optgroup>
-    </select>
+    <h3>Kaffeekanne</h3>  
+      
+        <label for="selectedPot">Kanne ausw&auml;hlen</label>
+        <select name="selectedPot" id="selectedPot">
+          <optgroup label="Geb&auml;ude 3">
+            <option value="" disabled selected>Bitte Kanne aus&auml;hlen</option>
+            <option value="1">Stockwerk 1</option>
+            <option value="2">Stockwerk 2</option>
+            <option value="3">Stockwerk 3</option>
+          </optgroup>
+        </select>
+        <br/>     
+        <br/>     
+        <label for="ip">IP Address</label>
+        <input name="ip" id="ipAddress" type="text">
+      
+        <br/>     
+        <br/>     
+        <label for="port">Port</label>
+        <input name="port" id="port" type="number">
+        
+        <button id="connectBtn">Connect</button>
   </body>
 </html>

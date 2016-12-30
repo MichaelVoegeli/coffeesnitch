@@ -3,7 +3,7 @@ window.WebSocket = window.WebSocket || window.MozWebSocket;
 
 var INCOMMING_POT_EVENT = "incommingPot";
 var POT_READY_EVENT = "potReady";
-var WS_URL = "ws://127.0.0.1:9000"
+var connectedToServer = false;
 
 // Initial connect
 tryConnect();
@@ -12,12 +12,28 @@ tryConnect();
  * Try to connect to websocket
  */
 function tryConnect() {
-    var connection = new WebSocket(WS_URL);
+    // Get the selected ip and port
+    var ipAddr = localStorage.getItem("ipAddress");
+    var port = localStorage.getItem("port");
+    
+    if(ipAddr && port) {
+      var WS_URL = 'ws://' + ipAddr + ':' + port;
+    
+      console.log("TRY CONNECT TO: ", WS_URL);
+    
+      var connection = new WebSocket(WS_URL);
 
-    connection.onopen = function(evt) { onOpen(evt) };
-    connection.onmessage = function(evt) { onMessage(evt) };
-    connection.onerror = function(evt) { onError(evt) };
-    connection.onclose = function(evt) { onClose(evt) };
+      connection.onopen = function(evt) { onOpen(evt) };
+      connection.onmessage = function(evt) { onMessage(evt) };
+      connection.onerror = function(evt) { onError(evt) };
+      connection.onclose = function(evt) { onClose(evt) };
+    }
+    else {
+        console.error("IP OR PORT NOT SPECIFIED!");
+        chrome.browserAction.setIcon({path : {
+            "19": "icons/notConnected/notConnected19b.png"
+        }});
+    }
 }
 
 /**
@@ -25,6 +41,11 @@ function tryConnect() {
  */
 function onOpen() {
     console.log("CONNECTED");
+    connectedToServer = true;
+    chrome.browserAction.setIcon({path : {
+        "19": "icons/ready/ready19b.png",
+        "38": "icons/ready/ready38b.png"
+    }});
 };
 
 /**
@@ -32,6 +53,10 @@ function onOpen() {
  */
 function onError(error) {
     console.log("Server not available");
+    connectedToServer = false;
+    chrome.browserAction.setIcon({path : {
+        "19": "icons/notConnected/notConnected19b.png"
+    }});
 };
 
 /**
@@ -53,16 +78,19 @@ function onMessage(message) {
     if(json.type == INCOMMING_POT_EVENT && json.potId == potNr)
     {
         chrome.browserAction.setIcon({path : {
-            "19": "icons/progress/progress19x.png",
-            "38": "icons/progress/progress38x.png"
+            "19": "icons/empty/empty19.png",
+            "38": "icons/empty/empty38.png"
         }});
     }
     else if(json.type == POT_READY_EVENT && json.potId == potNr)
     {
         chrome.browserAction.setIcon({path : {
-            "19": "icons/ready/ready19x.png",
-            "38": "icons/ready/ready38x.png"
+            "19": "icons/ready/ready19b.png",
+            "38": "icons/ready/ready38b.png"
         }});
+    }
+    else {
+        console.error('POT NOT KNOWN OR SET');
     }
 };
 
@@ -71,10 +99,23 @@ function onMessage(message) {
  */
 function onClose(evt)
 {
-    console.log("DISCONNECTED");
+  console.log("DISCONNECTED");
+  connectedToServer = false;
+  chrome.browserAction.setIcon({path : {
+    "19": "icons/notConnected/notConnected19b.png"
+  }});
     // Wait 10 seconds before try to reconnect 
-    setTimeout(function() {
+    /*setTimeout(function() {
         tryConnect();
-    }, 10000);
+    }, 10000);*/
 }
+
+/**
+ * Listen to events sent by popup.js
+ */
+chrome.runtime.onMessage.addListener(function(msg, _, sendResponse) {
+  if (msg.tryConnect) {
+    tryConnect();
+  }
+});
 
