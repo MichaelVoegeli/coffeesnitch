@@ -17,11 +17,11 @@ def sendData(tagId):
   response = urllib2.urlopen(req, json.dumps(data))
 
 while True:
-        data = serial.read()
+  data = serial.read()
 
-        if data == '\n':
-			code = "".join(x for x in code if 31 < ord(x) <127)
-			sendData(code)
-            code = ''
-        else:
-            code = code + data
+  if data == '\n':
+    code = "".join(x for x in code if 31 < ord(x) <127)
+    sendData(code)
+    code = ''
+  else:
+    code = code + data
