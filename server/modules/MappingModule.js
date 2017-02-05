@@ -12,7 +12,7 @@ module.exports = function () {
 
     var simplebus = require('simplebus');
     var client = simplebus.createClient(8181);
-  
+      
     /* Map function */
     function mapper(tagId) {
         switch (tagId) {

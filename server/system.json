@@ -3,31 +3,32 @@
   {
     // bus
     "name"        : "bus",
-    "script"      : "bus/Bus.js",
+    "script"      : "/home/pi/git/coffeesnitch/server/bus/Bus.js",
     "watch"       : false
   },
   {
     // JsonAdapter
     "name"        : "jsonAdapter",
-    "script"      : "JsonAdapter.js",
+    "script"      : "/home/pi/git/coffeesnitch/server/JsonAdapter.js",
     "watch"       : false
   },
   {
     // CountdownModule
     "name"        : "countdownModule",
-    "script"      : "CountdownModule.js",
+    "script"      : "/home/pi/git/coffeesnitch/server/CountdownModule.js",
     "watch"       : false
   },
   {
     // MappingModule
     "name"        : "mappingModule",
-    "script"      : "MappingModule.js",
+    "script"      : "/home/pi/git/coffeesnitch/server/MappingModule.js",
     "watch"       : false
   },
   {
     // BrowserExtensionNotificationModule
     "name"        : "browserExtensionNotificationModule",
-    "script"      : "BrowserExtensionNotificationModule.js",
+    "script"      : "/home/pi/git/coffeesnitch/server/BrowserExtensionNotificationModule.js",
+    "instances"   : 1,
     "watch"       : false
   }
 ]
