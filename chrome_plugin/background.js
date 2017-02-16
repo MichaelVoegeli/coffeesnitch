@@ -82,6 +82,13 @@ function onMessage(message) {
             "19": "icons/empty/empty19.png",
             "38": "icons/empty/empty38.png"
         }});
+
+        chrome.notifications.create('incommingPot', {
+            type: 'basic',
+            iconUrl: 'icons/empty/empty64.png',
+            title: 'Kanne ' + potNr + ' wird befüllt!',
+            message: 'Kanne ' + potNr + ' wird momentan befüllt.'
+        }, function(notificationId) {});
     }
     else if(json.type == POT_READY_EVENT && json.potId == potNr)
     {
@@ -90,11 +97,11 @@ function onMessage(message) {
             "38": "icons/ready/ready38b.png"
         }});
 
-        chrome.notifications.create('reminder', {
+        chrome.notifications.create('potReady', {
             type: 'basic',
             iconUrl: 'icons/ready/ready64b.png',
-            title: 'Don\'t forget!',
-            message: 'You have things to do. Wake up, dude!'
+            title: 'Kanne ' + potNr + ' fertig!',
+            message: 'Die Kanne ' + potNr + ' kann abgeholt werden.'
         }, function(notificationId) {});
     }
     else {
