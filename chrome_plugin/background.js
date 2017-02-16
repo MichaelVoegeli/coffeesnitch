@@ -4,6 +4,7 @@ window.WebSocket = window.WebSocket || window.MozWebSocket;
 var INCOMMING_POT_EVENT = "incommingPot";
 var POT_READY_EVENT = "potReady";
 var connectedToServer = false;
+var readyNotification = "ready-notification";
 
 // Initial connect
 tryConnect();
@@ -88,6 +89,13 @@ function onMessage(message) {
             "19": "icons/ready/ready19b.png",
             "38": "icons/ready/ready38b.png"
         }});
+
+        chrome.notifications.create('reminder', {
+            type: 'basic',
+            iconUrl: 'icons/ready/ready64b.png',
+            title: 'Don\'t forget!',
+            message: 'You have things to do. Wake up, dude!'
+        }, function(notificationId) {});
     }
     else {
         console.error('POT NOT KNOWN OR SET');
@@ -117,5 +125,17 @@ chrome.runtime.onMessage.addListener(function(msg, _, sendResponse) {
   if (msg.tryConnect) {
     tryConnect();
   }
+});
+
+chrome.browserAction.onClicked.addListener(()=> {
+  var clearing = browser.notifications.clear(cakeNotification);
+  clearing.then(() => {
+    console.log("cleared");
+  });
+});
+
+chrome.notifications.onButtonClicked.addListener((id, index) => {
+  browser.notifications.clear(id);
+  console.log("You chose: " + buttons[index].title);
 });
 
