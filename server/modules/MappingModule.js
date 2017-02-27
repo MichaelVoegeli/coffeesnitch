@@ -7,12 +7,15 @@ module.exports = function () {
     console.log("Mapping Module loaded");
 
     const INCOMMING_POT_NOTIFICATION_EVENT = 'incommingPotNotification';
+	const POT_READY_NOTIFICATION_EVENT = 'potReadyNotification';
     const START_COUNTDOWN_EVENT = 'startCountdown';
     const MAP_EVENT = 'map';
 
     var simplebus = require('simplebus');
     var client = simplebus.createClient(8181);
 
+	var startedCountdowns = [];
+	
     /* Map function */
     function mapper(tagId) {
         console.log(tagId)
@@ -20,20 +23,29 @@ module.exports = function () {
             case '0000029E0995':
             case '000002E6A743':
                 console.log("Kanne 1 da");
-                client.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 1 });
-                client.post({ type: START_COUNTDOWN_EVENT, time: 580, potId: 1 }); // set countdown for 8 minutes
+				if(startedCountdowns.indexOf(1) == -1) {
+					startedCountdowns.push(1);
+					client.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 1 });
+					client.post({ type: START_COUNTDOWN_EVENT, time: 480, potId: 1 }); // set countdown for 8 minutes
+				}
                 break;
             case '000002D0A775':
             case '000002DE835F':
                 console.log("Kanne 2 da");
-                client.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 2 });
-                client.post({ type: START_COUNTDOWN_EVENT, time: 580, potId: 2 });
+				if(startedCountdowns.indexOf(2) == -1) {
+					startedCountdowns.push(2);
+					client.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 2 });
+					client.post({ type: START_COUNTDOWN_EVENT, time: 480, potId: 2 });
+				}
                 break;
             case '000002EC0BE5':
             case '000002E537D0':
                 console.log("Kanne 3 da");
-                client.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 3 });
-                client.post({ type: START_COUNTDOWN_EVENT, time: 580, potId: 3 });
+				if(startedCountdowns.indexOf(3) == -1) {
+					startedCountdowns.push(3);
+					client.post({ type: INCOMMING_POT_NOTIFICATION_EVENT, potId: 3 });
+					client.post({ type: START_COUNTDOWN_EVENT, time: 480, potId: 3 });
+				}
                 break;
             default:
                 console.log("Kanne nicht bekannt");
@@ -47,5 +59,9 @@ module.exports = function () {
         client.subscribe({ type: MAP_EVENT }, function(msg) {
                 mapper(msg.tagId);
         });
+		client.subscribe({ type: POT_READY_NOTIFICATION_EVENT }, function(msg) { 
+        	var index = startedCountdowns.indexOf(msg.potId);
+			startedCountdowns.splice(index, 1);
+    	});
     });
 };
