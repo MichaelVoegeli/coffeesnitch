@@ -119,10 +119,10 @@ function onClose(evt)
   chrome.browserAction.setIcon({path : {
     "19": "icons/notConnected/notConnected19b.png"
   }});
-    // Wait 10 seconds before try to reconnect 
-    /*setTimeout(function() {
-        tryConnect();
-    }, 10000);*/
+  // Wait 10 seconds before try to reconnect 
+  setTimeout(function() {
+    tryConnect();
+  }, 10000);
 }
 
 /**
