@@ -29,8 +29,8 @@ module.exports = function () {
 					client.post({ type: START_COUNTDOWN_EVENT, time: 480, potId: 1 }); // set countdown for 8 minutes
 				}
                 break;
-            case '000002D0A775':
-            case '000002DE835F':
+            case '000002B00BB9':
+            case '000002D82EF4':
                 console.log("Kanne 2 da");
 				if(startedCountdowns.indexOf(2) == -1) {
 					startedCountdowns.push(2);
